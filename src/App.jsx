@@ -1,40 +1,36 @@
-import React from 'react'
-import Button from './components/Button/Button';
+import React, { useState } from 'react'
 import Functions from './components/Functions';
 import MathOperations from './components/MathOperations';
+import Numbers from './components/Numbers';
 import Result from './components/Result';
 import './App.scss';
+
 const App = () => {
-    let result = '0';
-    const clickHandlerFunction = text => {
-        console.log(text);
+    
+    let [stack, setStack] = useState("")
+    const clickNumberFunction = text => {
+        stack += text;
+        setStack(stack)
     }
     const clickEqualFunction = text => {
-        console.log(text);
+        stack = eval(text);
+        setStack(stack)
     }
     const clickOperationFunction = text => {
-        console.log(text);
+        stack += text;
+        setStack(stack)
     }
     const contentClearFunction = text => {
+        stack = '';
+        setStack(stack)
         console.log(text);
     }
     const deleteFunction = text => {
         console.log(text);
     }
     return (<main className='react-calculator'>
-        <Result value={result} />
-        <div className="numbers">
-            < Button text="1" clickHandler={clickHandlerFunction} />
-            < Button text="2" clickHandler={clickHandlerFunction} />
-            < Button text="3" clickHandler={clickHandlerFunction} />
-            < Button text="4" clickHandler={clickHandlerFunction} />
-            < Button text="5" clickHandler={clickHandlerFunction} />
-            < Button text="6" clickHandler={clickHandlerFunction} />
-            < Button text="7" clickHandler={clickHandlerFunction} />
-            < Button text="8" clickHandler={clickHandlerFunction} />
-            < Button text="9" clickHandler={clickHandlerFunction} />
-            < Button text="0" clickHandler={clickHandlerFunction} />
-        </div>
+        <Result value={stack} />
+        <Numbers onClickNumber={clickNumberFunction}/>
         <Functions onContentClear={contentClearFunction} onDelete={deleteFunction} />
         <MathOperations
             onClickEqual={clickEqualFunction}
