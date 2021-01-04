@@ -8,23 +8,25 @@ import './App.scss';
 import words from 'lodash.words'
 const App = () => {
 
-    let [stack, setStack] = useState("")
+    let [stack, setStack] = useState('')
+    let [operation, setOperation]= useState('')
     const items = words(stack, /[^-^+^*^/]+/g);
 
     const clickNumberFunction = text => {
         setStack(`${stack}${text}`)
     }
     const clickEqualFunction = text => {
+        setOperation(stack)
         setStack(eval(stack).toString())
     }
     const clickOperationFunction = text => {
+        setOperation(stack)
         setStack(`${stack}${text}`)
     }
     const contentClearFunction = text => {
         stack = '';
+        setOperation(stack)
         setStack(stack)
-        console.log(text);
-
     }
     const deleteFunction = text => {
         stack = stack.substring(0, stack.length - 1);
@@ -34,9 +36,9 @@ const App = () => {
     const value = items.length > 0 ? items[items.length - 1] : "0"
     
     return (<main className='react-calculator'>
-        <Result value={value} />
+        <Result value={value} operation={operation} />
         <Numbers onClickNumber={clickNumberFunction} />
-        <Functions onContentClear={contentClearFunction} onDelete={deleteFunction} />
+        <Functions onContentClear={contentClearFunction} onDelete={deleteFunction} onClickHandler={clickNumberFunction}/>
         <MathOperations
             onClickEqual={clickEqualFunction}
             onClickOperation={clickOperationFunction} />
